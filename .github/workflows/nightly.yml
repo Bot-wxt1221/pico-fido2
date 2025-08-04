@@ -30,13 +30,10 @@ jobs:
         run: |
            ./workflows/autobuild.sh pico
            ./build_pico_fido2.sh
-           ./workflows/autobuild.sh esp32
       - name: Delete private key
         run: rm private.pem
-      - name: Update nightly release
-        uses: pyTooling/Actions/releaser@main
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v4
         with:
-          tag: nightly-${{ matrix.refs }}
-          rm: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: release/*.*
+          name: pico-fido2
+          path: "release/*.*"
