@@ -30,7 +30,6 @@ jobs:
         run: |
            ./workflows/autobuild.sh pico
            ./build_pico_fido2.sh
-           ./workflows/autobuild.sh esp32
       - name: Delete private key
         run: rm private.pem
       - name: Update nightly release
