@@ -87,7 +87,21 @@ uint8_t exlen_info[] = {
 
 file_t file_entries[] = {
     { .fid = 0x3f00, .parent = 0xff, .name = NULL, .type = FILE_TYPE_DF, .data = NULL, .ef_structure = 0, .acl = { 0 } }, // MF
-   /*  1 */ { .fid = EF_FULL_AID, .parent = 0,            .type = FILE_TYPE_WORKING_EF, .data = NULL,
+    { .fid = EF_KEY_DEV, .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Device Key
+    { .fid = EF_KEY_DEV_ENC, .parent = 0, .name = NULL,.type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Device Key Enc
+    { .fid = EF_EE_DEV,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // End Entity Certificate Device
+    { .fid = EF_EE_DEV_EA,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // End Entity Enterprise Attestation Certificate
+    { .fid = EF_COUNTER,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Global counter
+    { .fid = EF_PIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // PIN
+    { .fid = EF_AUTHTOKEN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // AUTH TOKEN
+    { .fid = EF_PAUTHTOKEN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // PERSISTENT AUTH TOKEN
+    { .fid = EF_MINPINLEN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // MIN PIN LENGTH
+    { .fid = EF_OPTS,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Global options
+    { .fid = EF_LARGEBLOB,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Large Blob
+    { .fid = EF_OTP_PIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } },
+    { .fid = EF_PIN_ADMIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // ADMIN PIN
+       /*  1 */ { .fid = EF_FULL_AID, .parent = 0, .name = openpgp_aid_full,
+               .type = FILE_TYPE_WORKING_EF, .data = (uint8_t *) openpgp_aid_full,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /*  2 */ { .fid = EF_CH_NAME, .parent = 0, .name = NULL,
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
@@ -105,39 +119,39 @@ file_t file_entries[] = {
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /*  7 */ { .fid = EF_HIST_BYTES, .parent = 0, .name = NULL, .type = FILE_TYPE_WORKING_EF,
-               .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
+               .data = historical_bytes, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /*  8 */ { .fid = EF_CH_DATA, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data =NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_ch_data,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /*  9 */ { .fid = EF_SEC_TPL, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data =NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_sec_tpl,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 10 */ { .fid = EF_CH_CERT, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_ch_cert,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 11 */ { .fid = EF_EXLEN_INFO, .parent = 0, .name = NULL, .type = FILE_TYPE_WORKING_EF,
-               .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
+               .data = exlen_info, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 12 */ { .fid = EF_GFM, .parent = 0, .name = NULL, .type = FILE_TYPE_WORKING_EF,
-               .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
+               .data = feature_mngmnt, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 13 */ { .fid = EF_SIG_COUNT, .parent = 0, .name = NULL,
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 14 */ { .fid = EF_EXT_CAP, .parent = 0, .name = NULL, .type = FILE_TYPE_WORKING_EF,
-               .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
+               .data = extended_capabilities, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 15 */ { .fid = EF_ALGO_SIG, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_algoinfo,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 16 */ { .fid = EF_ALGO_DEC, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_algoinfo,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 17 */ { .fid = EF_ALGO_AUT, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_algoinfo,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 18 */ { .fid = EF_PW_STATUS, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_pw_status,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 19 */ { .fid = EF_FP, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_fp,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 20 */ { .fid = EF_FP_SIG, .parent = 0, .name = NULL,
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
@@ -149,7 +163,7 @@ file_t file_entries[] = {
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 23 */ { .fid = EF_CA_FP, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_cafp,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 24 */ { .fid = EF_FP_CA1, .parent = 0, .name = NULL,
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
@@ -161,7 +175,7 @@ file_t file_entries[] = {
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 27 */ { .fid = EF_TS_ALL, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_ts,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 28 */ { .fid = EF_TS_SIG, .parent = 0, .name = NULL,
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
@@ -185,16 +199,16 @@ file_t file_entries[] = {
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 35 */ { .fid = EF_KEY_INFO, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_keyinfo,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 36 */ { .fid = EF_ALGO_INFO, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_algoinfo,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 37 */ { .fid = EF_APP_DATA, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_app_data,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 38 */ { .fid = EF_DISCRETE_DO, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) parse_discrete_do,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     /* 39 */ { .fid = EF_PW1, .parent = 0, .name = NULL,
                .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL,
@@ -384,7 +398,7 @@ file_t file_entries[] = {
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 101 */ { .fid = EF_PIV_DISCOVERY, .parent = 0, .name = NULL,
-               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = NULL,
+               .type = FILE_TYPE_WORKING_EF | FILE_DATA_FUNC, .data = (uint8_t *) piv_parse_discovery,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
     /* 102 */ { .fid = EF_PIV_KEY_HISTORY, .parent = 0, .name = NULL,
                .type = FILE_TYPE_WORKING_EF | FILE_DATA_FLASH, .data = NULL,
@@ -492,22 +506,8 @@ file_t file_entries[] = {
                .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
 
-    /* 132 */ { .fid = 0x0000, .parent = 0, .name = openpgp_aid, .type = FILE_TYPE_WORKING_EF,
-        .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
-
-    { .fid = EF_KEY_DEV, .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Device Key
-    { .fid = EF_KEY_DEV_ENC, .parent = 0, .name = NULL,.type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Device Key Enc
-    { .fid = EF_EE_DEV,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // End Entity Certificate Device
-    { .fid = EF_EE_DEV_EA,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // End Entity Enterprise Attestation Certificate
-    { .fid = EF_COUNTER,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Global counter
-    { .fid = EF_PIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // PIN
-    { .fid = EF_AUTHTOKEN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // AUTH TOKEN
-    { .fid = EF_PAUTHTOKEN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // PERSISTENT AUTH TOKEN
-    { .fid = EF_MINPINLEN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // MIN PIN LENGTH
-    { .fid = EF_OPTS,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Global options
-    { .fid = EF_LARGEBLOB,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Large Blob
-    { .fid = EF_OTP_PIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } },
-    { .fid = EF_PIN_ADMIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // ADMIN PIN
+    /* 137 */ { .fid = 0x0000, .parent = 0, .name = openpgp_aid, .type = FILE_TYPE_WORKING_EF,
+               .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
     { .fid = 0x0000, .parent = 0xff, .name = NULL, .type = FILE_TYPE_NOT_KNOWN, .data = NULL, .ef_structure = 0, .acl = { 0 } }  //end                                                                                  //end
 };
 
