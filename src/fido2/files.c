@@ -492,6 +492,10 @@ file_t file_entries[] = {
                .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL,
                .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_R_WP },
 
+             
+    /* 137 */ { .fid = 0x0000, .parent = 0, .name = openpgp_aid, .type = FILE_TYPE_WORKING_EF,
+        .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },  .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = ACL_RO },
+
     { .fid = EF_KEY_DEV, .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Device Key
     { .fid = EF_KEY_DEV_ENC, .parent = 0, .name = NULL,.type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Device Key Enc
     { .fid = EF_EE_DEV,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // End Entity Certificate Device
@@ -505,7 +509,8 @@ file_t file_entries[] = {
     { .fid = EF_LARGEBLOB,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // Large Blob
     { .fid = EF_OTP_PIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } },
     { .fid = EF_PIN_ADMIN,  .parent = 0, .name = NULL, .type = FILE_TYPE_INTERNAL_EF | FILE_DATA_FLASH, .data = NULL, .ef_structure = FILE_EF_TRANSPARENT, .acl = { 0xff } }, // ADMIN PIN
-    { .fid = 0x0000, .parent = 0xff, .name = NULL, .type = FILE_TYPE_NOT_KNOWN, .data = NULL, .ef_structure = 0, .acl = { 0 } }  //end                                                                                  //end
+    { .fid = 0x0000, .parent = 0xff, .name = NULL, .type = FILE_TYPE_NOT_KNOWN, .data = NULL,
+               .ef_structure = 0, .acl = ACL_NONE }   
 };
 
 const file_t *MF = &file_entries[0];

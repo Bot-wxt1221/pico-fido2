@@ -78,25 +78,27 @@ if(NOT ESP_PLATFORM)
 endif()
 list(APPEND SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/src/fido2/files.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/fido.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cmd_register.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cmd_authenticate.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cmd_version.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_reset.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_get_info.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_make_credential.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/known_apps.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_client_pin.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/credential.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_get_assertion.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_selection.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_cred_mgmt.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_config.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_vendor.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/cbor_large_blobs.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/management.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/defs.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/management.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/defs.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/openpgp.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/piv.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_select.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_get_data.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_verify.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_put_data.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_select_data.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_import_data.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_version.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_change_pin.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_mse.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_internal_aut.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_challenge.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_activate_file.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_terminate_df.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_pso.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_keypair_gen.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_reset_retry.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/do.c
 )
 if(ENABLE_OATH_APP)
     list(APPEND SOURCES
