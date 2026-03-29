@@ -78,7 +78,7 @@ if(NOT ESP_PLATFORM)
 endif()
 list(APPEND SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/src/fido2/files.c
-    ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/management.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/fido/management.c
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/openpgp.c
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/piv.c
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_select.c
@@ -98,6 +98,8 @@ list(APPEND SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_keypair_gen.c
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_reset_retry.c
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/do.c
+    ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/defs.c
+
 )
 if(ENABLE_OATH_APP)
     list(APPEND SOURCES
