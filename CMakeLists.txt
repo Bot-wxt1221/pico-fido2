@@ -64,13 +64,13 @@ else()
 endif()
 
 if(ENABLE_OTP_APP OR ENABLE_OATH_APP)
-    set(USB_ITF_CCID 1)
-    set(USB_ITF_WCID 1)
+    set(USB_ITF_CCID 0)
+    set(USB_ITF_WCID 0)
 else()
     set(USB_ITF_CCID 0)
 endif()
 
-set(USB_ITF_HID 1)
+set(USB_ITF_HID 0)
 include(pico-keys-sdk/pico_keys_sdk_import.cmake)
 
 if(NOT ESP_PLATFORM)
