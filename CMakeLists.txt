@@ -70,7 +70,6 @@ else()
     set(USB_ITF_CCID 0)
 endif()
 
-set(USB_ITF_HID 0)
 include(pico-keys-sdk/pico_keys_sdk_import.cmake)
 
 if(NOT ESP_PLATFORM)
@@ -100,16 +99,6 @@ list(APPEND SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/cmd_reset_retry.c
     ${CMAKE_CURRENT_LIST_DIR}/pico-openpgp/src/openpgp/do.c
 )
-if(ENABLE_OATH_APP)
-    list(APPEND SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/oath.c
-    )
-endif()
-if(ENABLE_OTP_APP)
-    list(APPEND SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/otp.c
-    )
-endif()
 
 SET_VERSION(ver_major ver_minor "${CMAKE_CURRENT_LIST_DIR}/pico-fido/src/fido/version.h" 1)
 if(ESP_PLATFORM)
